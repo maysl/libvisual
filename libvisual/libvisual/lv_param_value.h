@@ -4,6 +4,7 @@
 #include <libvisual/lvconfig.h>
 #include <libvisual/lv_color.h>
 #include <libvisual/lv_palette.h>
+#include <libvisual/lv_collection.h>
 
 /**
  * @defgroup VisParam VisParam
@@ -206,6 +207,8 @@ VisPalette *visual_param_value_get_palette (VisParamValue *value);
 void visual_param_value_unset (VisParamValue *value);
 
 VisCollection *visual_param_value_get_collection (VisParamValue *value);
+
+VISUAL_END_DECLS
 
 /**
  * @}
