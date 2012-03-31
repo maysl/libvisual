@@ -82,6 +82,7 @@ SET(libvisual_SOURCES
   lv_morph.c
   lv_bmp.c
   lv_param.c
+  lv_param_value.c
   lv_cpu.c
   lv_color.c
   lv_time.c

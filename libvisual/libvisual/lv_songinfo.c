@@ -25,6 +25,7 @@
 #include "lv_songinfo.h"
 #include "lv_common.h"
 #include "lv_libvisual.h"
+#include "lv_param.h"
 #include "lv_util.h"
 #include <string.h>
 
@@ -174,8 +175,8 @@ int visual_songinfo_set_song (VisSongInfo *songinfo, char *song)
 int visual_songinfo_set_cover (VisSongInfo *songinfo, VisVideo *cover)
 {
 	VisParamContainer *params;
-	VisParamEntry *xparam;
-	VisParamEntry *yparam;
+	VisParamValue *xparam;
+	VisParamValue *yparam;
 	int cawidth = 64;
 	int caheight = 64;
 
@@ -186,12 +187,13 @@ int visual_songinfo_set_cover (VisSongInfo *songinfo, VisVideo *cover)
 
 	/* Get the desired cover art size */
 	params = visual_get_params ();
-	xparam = visual_param_container_get (params, "songinfo cover size x");
-	yparam = visual_param_container_get (params, "songinfo cover size y");
+
+	xparam = visual_param_container_get_param_value (params, "songinfo cover size x");
+	yparam = visual_param_container_get_param_value (params, "songinfo cover size y");
 
 	if (xparam != NULL && yparam != NULL) {
-		cawidth = visual_param_entry_get_integer (xparam);
-		caheight = visual_param_entry_get_integer (yparam);
+		cawidth  = visual_param_value_get_integer (xparam);
+		caheight = visual_param_value_get_integer (yparam);
 	}
 
 	/* The coverart image */

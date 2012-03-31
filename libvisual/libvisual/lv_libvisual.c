@@ -44,47 +44,41 @@ int __lv_initialized = FALSE;
 char *__lv_progname = NULL;
 
 /* The global params container */
-VisParamContainer *__lv_paramcontainer = NULL;
+VisParamContainer *__lv_system_params = NULL;
 
-static int init_params (VisParamContainer *paramcontainer);
-
-static int init_params (VisParamContainer *paramcontainer)
+static void visual_init_system_params (void)
 {
-	VisParamEntry *param;
+	__lv_system_params = visual_param_container_new ();
 
-	visual_return_val_if_fail (paramcontainer != NULL, -1);
+	/* FIXME: Initialize all the global parameters here */
 
-	/* Initialize all the global parameters here */
+	/* /\* Song information parameters *\/ */
+	/* /\* Show songinfo *\/ */
+	/* param = visual_param_entry_new ("songinfo show"); */
+	/* visual_param_entry_set_integer (param, 1); */
+	/* visual_param_container_add (paramcontainer, param); */
 
-	/* Song information parameters */
-	/* Show songinfo */
-	param = visual_param_entry_new ("songinfo show");
-	visual_param_entry_set_integer (param, 1);
-	visual_param_container_add (paramcontainer, param);
+	/* /\* Songinfo timeout, in seconds *\/ */
+	/* param = visual_param_entry_new ("songinfo timeout"); */
+	/* visual_param_entry_set_integer (param, 5); */
+	/* visual_param_container_add (paramcontainer, param); */
 
-	/* Songinfo timeout, in seconds */
-	param = visual_param_entry_new ("songinfo timeout");
-	visual_param_entry_set_integer (param, 5);
-	visual_param_container_add (paramcontainer, param);
+	/* /\* */
+	/*  * Show songinfo in plugins, plugins that optionally show song */
+	/*  * info should query this parameter */
+	/*  *\/ */
+	/* param = visual_param_entry_new ("songinfo in plugin"); */
+	/* visual_param_entry_set_integer (param, 1); */
+	/* visual_param_container_add (paramcontainer, param); */
 
-	/*
-	 * Show songinfo in plugins, plugins that optionally show song
-	 * info should query this parameter
-	 */
-	param = visual_param_entry_new ("songinfo in plugin");
-	visual_param_entry_set_integer (param, 1);
-	visual_param_container_add (paramcontainer, param);
+	/* /\* Cover art dimension *\/ */
+	/* param = visual_param_entry_new ("songinfo cover size x"); */
+	/* visual_param_entry_set_integer (param, 128); */
+	/* visual_param_container_add (paramcontainer, param); */
 
-	/* Cover art dimension */
-	param = visual_param_entry_new ("songinfo cover size x");
-	visual_param_entry_set_integer (param, 128);
-	visual_param_container_add (paramcontainer, param);
-
-	param = visual_param_entry_new ("songinfo cover size y");
-	visual_param_entry_set_integer (param, 128);
-	visual_param_container_add (paramcontainer, param);
-
-	return 0;
+	/* param = visual_param_entry_new ("songinfo cover size y"); */
+	/* visual_param_entry_set_integer (param, 128); */
+	/* visual_param_container_add (paramcontainer, param); */
 }
 
 const char *visual_get_version ()
@@ -99,7 +93,7 @@ int visual_get_api_version ()
 
 VisParamContainer *visual_get_params ()
 {
-	return __lv_paramcontainer;
+	return __lv_system_params;
 }
 
 int visual_init (int *argc, char ***argv)
@@ -153,8 +147,8 @@ int visual_init (int *argc, char ***argv)
 	/* Initialize the plugin registry */
 	visual_plugin_registry_initialize ();
 
-	__lv_paramcontainer = visual_param_container_new ();
-	init_params (__lv_paramcontainer);
+	/* Initialize system parameters */
+	visual_init_system_params ();
 
 	__lv_initialized = TRUE;
 
@@ -181,7 +175,7 @@ int visual_quit ()
 
 	visual_plugin_registry_deinitialize ();
 
-	ret = visual_object_unref (VISUAL_OBJECT (__lv_paramcontainer));
+	ret = visual_object_unref (VISUAL_OBJECT (__lv_system_params));
 	if (ret < 0)
 		visual_log (VISUAL_LOG_WARNING, _("Global param container: destroy failed: %s"), visual_error_to_string (ret));
 

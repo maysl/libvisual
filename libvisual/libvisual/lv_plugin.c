@@ -485,7 +485,7 @@ int visual_plugin_unload (VisPluginData *plugin)
 			ref->usecount--;
 	}
 
-	visual_param_container_set_eventqueue (plugin->params, NULL);
+	/*visual_param_container_set_eventqueue (plugin->params, NULL);*/
 
 	visual_object_unref (VISUAL_OBJECT (plugin));
 
@@ -592,7 +592,7 @@ int visual_plugin_realize (VisPluginData *plugin)
 		return -VISUAL_ERROR_PLUGIN_ALREADY_REALIZED;
 
 	paramcontainer = visual_plugin_get_params (plugin);
-	visual_param_container_set_eventqueue (paramcontainer, &plugin->eventqueue);
+	/*visual_param_container_set_eventqueue (paramcontainer, &plugin->eventqueue);*/
 	plugin->info->init (plugin);
 	plugin->realized = TRUE;
 

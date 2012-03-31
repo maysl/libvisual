@@ -31,12 +31,17 @@ typedef struct {
 
 VisColor *visual_color_new (void)
 {
+	return visual_color_new_rgba (0, 0, 0, 0);
+}
+
+VisColor *visual_color_new_rgba (uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
 	VisColor *color;
 
 	color = visual_mem_new0 (VisColor, 1);
 
-	/* Do the VisObject initialization */
 	visual_object_initialize (VISUAL_OBJECT (color), TRUE, NULL);
+	visual_color_set_with_alpha (color, r, g, b, a);
 
 	return color;
 }
